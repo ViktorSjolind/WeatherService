@@ -14,19 +14,58 @@ namespace WeatherService.Controllers
         public IActionResult Index()
         {
             return View();
-        }
+        }        
 
-
-        public async Task<string> GetAll()
+        // /weather/getall?time=2018-03-06T14
+        public async Task<string> Get(string time)
         {
             WeatherMeasurement weatherMeasurement = null;
+
             using(var client = new HttpClient())
             {
-                var jsonResponse = await client.GetStringAsync("http://weatherapi2dashboard.azurewebsites.net/api/WeatherMeasurement/2018-03-06T14");
+                var jsonResponse = await client.GetStringAsync("http://weatherapi2dashboard.azurewebsites.net/api/WeatherMeasurement/" + time);
                 if (jsonResponse != null)
                     weatherMeasurement = JsonConvert.DeserializeObject<WeatherMeasurement>(jsonResponse);
-                return weatherMeasurement.Id.ToString() + weatherMeasurement.Temperature.ToString() + weatherMeasurement.UpdateTime;
+                return weatherMeasurement.Temperature.ToString();
+                //return time;
             }
+
+        }
+
+        // /weather/getlastten
+        public async Task<string> GetLastTen()
+        {
+            List<WeatherMeasurement> weatherMeasurementList = new List<WeatherMeasurement>();
+            WeatherMeasurement weatherMeasurement = null;
+
+            using (var client = new HttpClient())
+            {
+                               
+
+                for (int i = 0; i < 10; i++)
+                {
+                    DateTime upperBound = DateTime.UtcNow.AddHours(-1 * i);
+                    string dateTimeUrl = upperBound.ToString("yyyy-MM-ddTHH");
+
+                    var jsonResponse = await client.GetStringAsync("http://weatherapi2dashboard.azurewebsites.net/api/WeatherMeasurement/" + dateTimeUrl);
+                    if (jsonResponse != null)
+                    {
+                        weatherMeasurement = JsonConvert.DeserializeObject<WeatherMeasurement>(jsonResponse);
+                        weatherMeasurementList.Add(weatherMeasurement);
+                    }
+                }
+
+                string result = "";
+                foreach(WeatherMeasurement wm in weatherMeasurementList)
+                {
+                    result += wm.Temperature + " ";
+                }
+                return result;
+
+            }
+
+            
+            
 
         }
 
