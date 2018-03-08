@@ -42,7 +42,7 @@ namespace WeatherService.Controllers
             {
                                
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 9; i >= 0; i--)
                 {
                     DateTime upperBound = DateTime.UtcNow.AddHours(-1 * i);
                     string dateTimeUrl = upperBound.ToString("yyyy-MM-ddTHH");
