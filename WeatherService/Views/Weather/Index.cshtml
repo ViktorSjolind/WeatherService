@@ -1,7 +1,56 @@
-﻿@*
-    ViewData["Title"] = "Index";    
-*@
+﻿@{
+    Layout = null;
+}
 
-<h2>Weather Service</h2>
+<!DOCTYPE html>
 
-<p>Weather data</p>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <title>Line Chart</title>
+</head>
+<body>
+    <div id="chartContainer"></div>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "theme2",
+                zoomEnabled: true,
+                animationEnabled: true,
+                title: {
+                    text: "Temperature last 10 hours"
+                },
+                subtitles: [
+                    {
+                        text: ""
+                    }
+                ],
+                data: [
+                    {
+                        
+                    type: "line",
+                    dataPoints: [
+                        { x: 10, y: @ViewBag.One },
+                        { x: 20, y: 55 },
+                        { x: 30, y: 50 },
+                        { x: 40, y: 65 },
+                        { x: 50, y: 95 },
+                        { x: 60, y: 68 },
+                        { x: 70, y: 28 },
+                        { x: 80, y: 34 },
+                        { x: 90, y: 14 },
+                        { x: 100, y: 33 },
+                        { x: 110, y: 42 },
+                        { x: 120, y: 62 },
+                    ],
+                }
+                ]
+            });
+            chart.render();
+        };
+    </script>
+
+</body>
+</html>	

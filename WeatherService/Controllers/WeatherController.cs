@@ -33,7 +33,7 @@ namespace WeatherService.Controllers
         }
 
         // /weather/getlastten
-        public async Task<string> GetLastTen()
+        public async Task<ViewResult> GetLastTen()
         {
             List<WeatherMeasurement> weatherMeasurementList = new List<WeatherMeasurement>();
             WeatherMeasurement weatherMeasurement = null;
@@ -60,8 +60,9 @@ namespace WeatherService.Controllers
                 {
                     result += wm.Temperature + " ";
                 }
-                return result;
-
+                //return result;
+                ViewBag.One = weatherMeasurementList[0];
+                return View("Index");
             }
 
             
